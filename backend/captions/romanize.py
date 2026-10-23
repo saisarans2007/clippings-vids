@@ -257,7 +257,10 @@ def romanize_words(words: list[dict]) -> list[dict]:
             ]
         romanized.extend(out)
 
+    # A word that already had ``hinglish`` was skipped above; keep that value
+    # instead of the fallback (its own text), so re-running on an edited
+    # transcript doesn't throw the edits away.
     return [
-        {**w, "hinglish": h}
+        {**w, "hinglish": w.get("hinglish") or h}
         for w, h in zip(words, romanized)
     ]
